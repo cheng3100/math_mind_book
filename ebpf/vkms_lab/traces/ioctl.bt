@@ -1,0 +1,22 @@
+#!/usr/bin/env bpftrace
+
+tracepoint:syscalls:sys_enter_ioctl
+/comm == "modetest" ||
+ comm == "kms_atomic" ||
+ comm == "kms_flip" ||
+ comm == "kms_plane" ||
+ comm == "kms_vblank" ||
+ comm == "kms_writeback" ||
+ comm == "kms_addfb_basic" ||
+ comm == "kms_cursor_crc" ||
+ comm == "kms_pipe_crc_ba"/
+{
+  printf("%-16s pid=%d tid=%d fd=%d cmd=0x%lx arg=0x%lx\n",
+         comm, pid, tid, args.fd, args.cmd, args.arg);
+  @[comm, args.cmd] = count();
+}
+
+END
+{
+  print(@);
+}

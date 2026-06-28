@@ -1,0 +1,27 @@
+#!/usr/bin/env bpftrace
+
+kprobe:vkms_atomic_check,
+kprobe:vkms_atomic_commit_tail,
+kprobe:vkms_crtc_atomic_check,
+kprobe:vkms_crtc_atomic_begin,
+kprobe:vkms_crtc_atomic_flush,
+kprobe:vkms_plane_atomic_check,
+kprobe:vkms_plane_atomic_update,
+kprobe:vkms_prepare_fb,
+kprobe:vkms_cleanup_fb,
+kprobe:vkms_set_crc_source,
+kprobe:vkms_composer_worker,
+kprobe:vkms_wb_prepare_job,
+kprobe:vkms_wb_atomic_check,
+kprobe:vkms_wb_atomic_commit,
+kprobe:vkms_wb_cleanup_job,
+kprobe:vkms_writeback_row
+{
+  @[probe] = count();
+}
+
+interval:s:1
+{
+  print(@, 30);
+  clear(@);
+}

@@ -1,0 +1,8 @@
+external/
+task1-runtime/
+tools-build/
+tools-install/
+rootfs/
+*.cpio
+*.cpio.gz
+*.log

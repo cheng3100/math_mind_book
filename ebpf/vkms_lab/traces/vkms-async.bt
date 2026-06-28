@@ -1,0 +1,45 @@
+#!/usr/bin/env bpftrace
+
+kprobe:vkms_crtc_handle_vblank_timeout
+{
+  @vblank = count();
+  printf("vblank_timeout comm=%s pid=%d tid=%d\n", comm, pid, tid);
+}
+
+kprobe:vkms_composer_worker
+{
+  @composer = count();
+  printf("composer_worker comm=%s pid=%d tid=%d\n", comm, pid, tid);
+}
+
+kprobe:vkms_wb_prepare_job,
+kprobe:vkms_wb_atomic_check,
+kprobe:vkms_wb_atomic_commit,
+kprobe:vkms_wb_cleanup_job
+{
+  @[probe] = count();
+  printf("%s comm=%s pid=%d tid=%d\n", probe, comm, pid, tid);
+}
+
+kprobe:vkms_writeback_row
+{
+  @writeback_rows = count();
+}
+
+tracepoint:workqueue:workqueue_execute_start
+{
+  @workqueue[comm] = count();
+}
+
+interval:s:1
+{
+  print(@vblank);
+  print(@composer);
+  print(@writeback_rows);
+}
+
+END
+{
+  print(@);
+  print(@workqueue, 20);
+}

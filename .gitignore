@@ -1,0 +1,7 @@
+# eBPF VKMS lab generated sources/build outputs.
+/ebpf/vkms_lab/external/
+/ebpf/vkms_lab/task1-runtime/
+/ebpf/vkms_lab/tools-build/
+/ebpf/vkms_lab/tools-install/
+/ebpf/vkms_lab/rootfs/
+/ebpf/vkms_lab/*.log

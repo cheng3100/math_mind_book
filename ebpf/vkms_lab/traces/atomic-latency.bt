@@ -1,0 +1,33 @@
+#!/usr/bin/env bpftrace
+
+kprobe:drm_atomic_commit,
+kprobe:drm_atomic_nonblocking_commit
+/comm == "modetest" ||
+ comm == "kms_atomic" ||
+ comm == "kms_flip" ||
+ comm == "kms_plane" ||
+ comm == "kms_writeback"/
+{
+  @start[tid] = nsecs;
+  printf("atomic_enter %-30s comm=%s pid=%d tid=%d\n",
+         probe, comm, pid, tid);
+}
+
+kretprobe:drm_atomic_commit,
+kretprobe:drm_atomic_nonblocking_commit
+/@start[tid]/
+{
+  $delta_us = (nsecs - @start[tid]) / 1000;
+  printf("atomic_exit  %-30s comm=%s pid=%d tid=%d ret=%d latency_us=%d\n",
+         probe, comm, pid, tid, retval, $delta_us);
+  @lat_us = hist($delta_us);
+  @ret[retval] = count();
+  delete(@start[tid]);
+}
+
+END
+{
+  clear(@start);
+  print(@ret);
+  print(@lat_us);
+}
