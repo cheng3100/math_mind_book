@@ -17,8 +17,8 @@
 
 | 类别 | 名称 | 主要用途 | 软件调试关注点 | 详细文档 |
 | --- | --- | --- | --- | --- |
-| Bus Protocol | AXI | SoC 内 master/slave 基本读写通道，常用于 CPU/GPU/PCIe/DMA/寄存器/DDR 控制器之间的数据访问 | MMIO stuck、读全 F、写无响应、地址译码错误、burst/size/ID/PROT 属性错误、B/R response 异常 | [AXI.md](ip_details/AXI.md) |
-| Coherent Bus Protocol | AXI-ACE | AXI 的 cache coherent 扩展，用于 CPU cluster、GPU/NPU、IO coherent master 与 coherent interconnect 之间的一致性访问 | CPU/GPU cache 一致性、snoop、shareability、atomic/coherent transaction、DMA coherency、UVM/HMM 可见性 | [AXI_ACE.md](ip_details/AXI_ACE.md) |
+| Bus Protocol | AXI | SoC 内 master/slave 基本读写通道，常用于 CPU/GPU/PCIe/DMA/寄存器/DDR 控制器之间的数据访问 | MMIO stuck、读全 F、写无响应、地址译码错误、burst/size/ID/PROT 属性错误、B/R response 异常 | [axi_ip_details.md](ip_details/axi_ip_details.md) |
+| Coherent Bus Protocol | AXI-ACE | AXI 的 cache coherent 扩展，用于 CPU cluster、GPU/NPU、IO coherent master 与 coherent interconnect 之间的一致性访问 | CPU/GPU cache 一致性、snoop、shareability、atomic/coherent transaction、DMA coherency、UVM/HMM 可见性 | [axi_ace_ip_details.md](ip_details/axi_ace_ip_details.md) |
 
 ## 后续可继续扩展的 IP / 协议方向
 
@@ -43,11 +43,11 @@
 rtl_opensource_learn/
 ├── RTL_COMMON_IP.md
 └── ip_details/
-    ├── AXI.md
-    └── AXI_ACE.md
+    ├── axi_ip_details.md
+    └── axi_ace_ip_details.md
 ```
 
-每个 `ip_details/*.md` 文档建议包含：
+每个 `ip_details/*_ip_details.md` 文档建议包含：
 
 1. 这个 IP / 协议在 SoC/GPGPU 中的位置；
 2. 软件驱动工程师为什么需要理解它；
