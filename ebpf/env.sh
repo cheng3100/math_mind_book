@@ -35,7 +35,7 @@ PACKAGES_DEBIAN=(
   libdrm-dev
   libglib2.0-dev
   libpixman-1-dev
-  libproc2-dev
+  # libproc2-dev
   libunwind-dev
   libdw-dev
   libjson-c-dev
